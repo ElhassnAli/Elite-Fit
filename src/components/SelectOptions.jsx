@@ -1,10 +1,48 @@
-import React from "react";
+import React, { useContext } from "react";
+import Option from "./Option";
+import { WeatherContext } from "../context/WeatherContext";
 
 function SelectOptions() {
+  const { isMetric, setIsMetric, setUnitSysOpen } = useContext(WeatherContext);
+  console.log(isMetric);
+  console.log(setIsMetric);
+
+  const settingsData = [
+    {
+      id: 1,
+      label: "Temperature",
+      options: ["Celsius (°C)", "Fahrenheit (°F)"],
+    },
+    {
+      id: 2,
+      label: "Wind Speed",
+      options: ["km/h", "mph"],
+    },
+    {
+      id: 3,
+      label: "Precipitation",
+      options: ["Millimeters (mm)", "Inches (in)"],
+    },
+  ];
+
   return (
-    <div className="bg-[#25253f] text-white flex justify-between items-center"></div>
+    <div className="absolute top-12  w-55 bg-neutral-700 right-0 rounded-2xl text-left p-3 ">
+      <button
+        className=" cursor-pointer hover:bg-neutral-600 w-full flex items-center rounded-xl p-2"
+        onClick={() => {
+          setIsMetric((e) => !e);
+          setUnitSysOpen(false);
+        }}
+      >
+        Switch to {isMetric ? "Imperial" : "Metric"}
+      </button>
+      <ul>
+        {settingsData.map((e) => (
+          <Option props={e} key={e.id} />
+        ))}
+      </ul>
+    </div>
   );
 }
-
 export default SelectOptions;
 // Units Switch to Imperial/Metric Temperature Celsius (°C) Fahrenheit (°F) Wind Speed km/h mph Precipitation Millimeters (mm) Inches (in)

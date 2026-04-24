@@ -2,17 +2,23 @@ import SelectOptions from "./SelectOptions";
 // import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+import { useContext } from "react";
+import { WeatherContext } from "../context/WeatherContext";
 
 function Header() {
-  // const [selectOptionsOpen, setSelectOptionsOpen] = useState(false);
+  const { unitSysOpen, setUnitSysOpen } = useContext(WeatherContext);
   return (
-    <div className="flex justify-between items-center mt-5">
+    <div className="flex justify-between items-center mt-5 relative text-white">
       <img src="/design/logo.svg" alt="logo" />
-      <div className="text-white flex justify-between items-center relative w-27 bg-neutral-600 px-2 text-[18px] rounded-[7px] cursor-pointer">
+      <div
+        className=" flex justify-between items-center w-27 bg-neutral-700 px-2 text-[18px] rounded-[7px] cursor-pointer"
+        onClick={() => setUnitSysOpen((e) => !e)}
+      >
         <IoSettingsOutline size={18} />
         <span>Units</span>
         <IoIosArrowDown size={18} />
       </div>
+      {unitSysOpen && <SelectOptions />}
     </div>
   );
 }
