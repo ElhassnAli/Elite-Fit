@@ -1,15 +1,17 @@
+import SelectOptions from "./SelectOptions";
+// import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
+
 function Header() {
+  // const [selectOptionsOpen, setSelectOptionsOpen] = useState(false);
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center mt-5">
       <img src="/design/logo.svg" alt="logo" />
-      <div className=" flex text-white items-center justify-between relative">
-        <button className=" flex justify-between items-center  bg-[#25253f] p-2 rounded-xl">
-          <IoSettingsOutline color="white" />
-          <span className="px-1">Units</span>
-          <IoIosArrowDown />
-        </button>
+      <div className="text-white flex justify-between items-center relative w-27 bg-neutral-600 px-2 text-[18px] rounded-[7px] cursor-pointer">
+        <IoSettingsOutline size={18} />
+        <span>Units</span>
+        <IoIosArrowDown size={18} />
       </div>
     </div>
   );
