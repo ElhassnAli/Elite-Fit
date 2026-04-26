@@ -8,7 +8,7 @@ import { WeatherContext } from "../context/WeatherContext";
 function Header() {
   const { unitSysOpen, setUnitSysOpen } = useContext(WeatherContext);
   return (
-    <div className="flex justify-between items-center mt-5 relative text-white">
+    <header className="flex justify-between items-center mt-5 relative text-white">
       <img src="/design/logo.svg" alt="logo" />
       <div
         className=" flex justify-between items-center w-27 bg-neutral-700 px-2 text-[18px] rounded-[7px] cursor-pointer"
@@ -19,7 +19,7 @@ function Header() {
         <IoIosArrowDown size={18} />
       </div>
       {unitSysOpen && <SelectOptions />}
-    </div>
+    </header>
   );
 }
 
