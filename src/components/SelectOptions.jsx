@@ -26,7 +26,7 @@ function SelectOptions() {
   ];
 
   return (
-    <div className="absolute top-12  w-55 bg-neutral-700 right-0 rounded-2xl text-left p-3 ">
+    <div className="absolute top-12 z-50 w-55 bg-neutral-700 right-0 rounded-2xl text-left p-3 ">
       <button
         className=" cursor-pointer hover:bg-neutral-600 w-full flex items-center rounded-xl p-2"
         onClick={() => {

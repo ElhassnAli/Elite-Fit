@@ -5,8 +5,13 @@ import SearchButton from "./SearchButton";
 import Suggestions from "./Suggestions";
 
 function SearchBar() {
-  const { searchQuery, setSearchQuery, getCountry } =
-    useContext(WeatherContext);
+  const {
+    searchQuery,
+    setSearchQuery,
+    getCountry,
+    suggestionsOpen,
+    setSuggestionsOpen,
+  } = useContext(WeatherContext);
 
   console.log(searchQuery);
 
@@ -21,10 +26,11 @@ function SearchBar() {
           onChange={(e) => {
             setSearchQuery(e.target.value);
             getCountry(searchQuery);
+            setSuggestionsOpen(true);
           }}
           className="border-none pr-30 outline-none pl-5"
         />
-        <Suggestions />
+        {suggestionsOpen && <Suggestions />}
       </div>
       <SearchButton />
     </div>
