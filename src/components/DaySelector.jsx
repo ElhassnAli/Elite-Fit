@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import { WeatherContext } from "../context/WeatherContext";
-import Day from "./Day";
 
 function DaySelector() {
-  const { weatherData } = useContext(WeatherContext);
+  const { weatherData, setSelectedDay } = useContext(WeatherContext);
 
   const days = weatherData?.daily?.time || [];
 
@@ -13,7 +12,15 @@ function DaySelector() {
         const dayName = new Date(day).toLocaleDateString("en-US", {
           weekday: "long",
         });
-        return <Day dayName={dayName} key={dayName} />;
+        return (
+          <span
+            onClick={() => setSelectedDay(dayName)}
+            key={dayName}
+            className="hover:bg-neutral-500 w-full pr-15 rounded-[5px] pl-3 cursor-pointer"
+          >
+            {dayName}
+          </span>
+        );
       })}
     </div>
   );

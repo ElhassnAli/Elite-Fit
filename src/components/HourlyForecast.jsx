@@ -5,7 +5,7 @@ import DaySelector from "./DaySelector";
 import { IoIosArrowDown } from "react-icons/io";
 
 function HourlyForecast() {
-  const { weatherData, selectDayDropDawn, setSelectDayDropDawn } =
+  const { weatherData, selectDayDropDawn, setSelectDayDropDawn, selectedDay } =
     useContext(WeatherContext);
   if (weatherData === undefined) return;
   const dataInHours = weatherData?.hourly?.time;
@@ -22,7 +22,7 @@ function HourlyForecast() {
               setSelectDayDropDawn((e) => !e);
             }}
           >
-            <span>Monday</span>
+            <span>{selectedDay}</span>
             <IoIosArrowDown size={20} />
           </div>
           {selectDayDropDawn && <DaySelector />}

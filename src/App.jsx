@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Header from "./components/Header";
 import { WeatherContext } from "./context/WeatherContext";
 import AppTitle from "./components/AppTitle";
@@ -21,6 +20,7 @@ function App() {
     city: "",
     country: "",
   });
+  const [selectedDay, setSelectedDay] = useState("-");
   const [selectDayDropDawn, setSelectDayDropDawn] = useState(false);
 
   async function getCountry(city) {
@@ -46,6 +46,11 @@ https://api.open-meteo.com/v1/forecast?latitude=${address.lat}&longitude=${addre
     const data = await res.json();
     if (data.hourly.time && data.hourly.time.length > 0) {
       setWeatherData(data);
+      const day = data.current.time;
+      const dayName = new Date(day).toLocaleDateString("en-US", {
+        weekday: "long",
+      });
+      setSelectedDay(dayName);
     } else {
       setWeatherData([]);
     }
@@ -70,6 +75,8 @@ https://api.open-meteo.com/v1/forecast?latitude=${address.lat}&longitude=${addre
         weatherData,
         selectDayDropDawn,
         setSelectDayDropDawn,
+        selectedDay,
+        setSelectedDay,
       }}
     >
       <div className="bg-[#02012b] w-[75%] m-auto text-white">
