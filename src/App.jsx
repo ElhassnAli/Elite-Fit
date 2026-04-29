@@ -14,13 +14,11 @@ function App() {
   const [countriesWeGet, setCountriesWeGet] = useState([]);
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [weatherData, setWeatherData] = useState([]);
-  const [address, setAddress] = useState({
-    lat: "",
-    lon: "",
-    city: "",
-    country: "",
+  const [address, setAddress] = useState({});
+  const [hourlyForecastDay, setHourlyForecastDay] = useState({
+    dayName: "-",
+    dayNum: 0,
   });
-  const [selectedDay, setSelectedDay] = useState("-");
   const [selectDayDropDawn, setSelectDayDropDawn] = useState(false);
 
   async function getCountry(city) {
@@ -33,28 +31,42 @@ function App() {
     } else {
       setCountriesWeGet([]);
     }
-
-    console.log(data.results);
   }
 
   async function getWeather(address) {
-    if (address.lat === "" || address.lon === "") return;
+    if (address.latitude === "" || address.longitude === "") return;
     let URL = `
-https://api.open-meteo.com/v1/forecast?latitude=${address.lat}&longitude=${address.lon}&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=precipitation,temperature_2m,wind_speed_10m&past_days=0&forecast_days=7`;
-
+https://api.open-meteo.com/v1/forecast?latitude=${address.latitude}&longitude=${address.longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=temperature_2m,weather_code&current=precipitation,temperature_2m,wind_speed_10m,weather_code&timezone=auto&past_days=0&forecast_days=7`;
     const res = await fetch(URL);
     const data = await res.json();
     if (data.hourly.time && data.hourly.time.length > 0) {
-      setWeatherData(data);
-      const day = data.current.time;
-      const dayName = new Date(day).toLocaleDateString("en-US", {
-        weekday: "long",
+      setWeatherData({
+        data: data,
+        address: {
+          city: address.name,
+          country: address.country,
+        },
       });
-      setSelectedDay(dayName);
+      setHourlyForecastDay({
+        dayName: new Date(data.current.time).toLocaleDateString("en-US", {
+          weekday: "long",
+        }),
+        dayNum: 0,
+      });
+      console.log(weatherData);
+
+      // const day = data.current.time;
+      // const dayName = new Date(day).toLocaleDateString("en-US", {
+      //   weekday: "long",
+      // });
+      // const monthName = new Date(day).toLocaleDateString("en-US", {
+      //   weekday: "long",
+
+      // });
+      // setSelectedDay({ name: dayName, dayNum: 0 });
     } else {
       setWeatherData([]);
     }
-    console.log(weatherData);
   }
   return (
     <WeatherContext.Provider
@@ -75,8 +87,8 @@ https://api.open-meteo.com/v1/forecast?latitude=${address.lat}&longitude=${addre
         weatherData,
         selectDayDropDawn,
         setSelectDayDropDawn,
-        selectedDay,
-        setSelectedDay,
+        hourlyForecastDay,
+        setHourlyForecastDay,
       }}
     >
       <div className="bg-[#02012b] w-[75%] m-auto text-white">
@@ -100,4 +112,4 @@ https://api.open-meteo.com/v1/forecast?latitude=${address.lat}&longitude=${addre
 
 export default App;
 //https://geocoding-api.open-meteo.com/v1/search?name=Berlin&count=10&language=en&format=json
-//https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=precipitation,temperature_2m,wind_speed_10m&past_days=0&forecast_days=7
+//https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&current=precipitation,temperature_2m,wind_speed_10m&&timezone=auto&past_days=0&forecast_days=7

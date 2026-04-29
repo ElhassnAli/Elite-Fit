@@ -1,14 +1,15 @@
 import { useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+import { convertDate, WeatherContext } from "../context/WeatherContext";
 
 function WeatherHeader() {
-  const { address } = useContext(WeatherContext);
+  const { weatherData } = useContext(WeatherContext);
+  if (weatherData.address === undefined) return;
   return (
     <div className="flex flex-col justify-between items-start">
       <h3>
-        {address.city} , {address.country}
+        {weatherData.address.city} {weatherData.address.country}
       </h3>
-      <p>Saturday , Aug 5, 2026</p>
+      <p>{convertDate(weatherData.data.current.time)}</p>
     </div>
   );
 }

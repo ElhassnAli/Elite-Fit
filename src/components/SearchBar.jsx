@@ -12,9 +12,6 @@ function SearchBar() {
     suggestionsOpen,
     setSuggestionsOpen,
   } = useContext(WeatherContext);
-
-  console.log(searchQuery);
-
   return (
     <div className=" flex justify-center items-center text-[18px] mt-15">
       <div className="flex   items-center bg-neutral-700 px-3 py-3 rounded-2xl border-2 border-transparent focus-within:border-white relative">

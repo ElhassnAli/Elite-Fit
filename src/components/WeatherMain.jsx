@@ -1,7 +1,19 @@
-import React from 'react'
+import { useContext } from "react";
+import {
+  convertWeatherCodeToIcon,
+  WeatherContext,
+} from "../context/WeatherContext";
 
 function WeatherMain() {
-  return <span>☀️ 20&deg;</span>;
+  const { weatherData } = useContext(WeatherContext);
+  if (weatherData.data === undefined) return;
+  return (
+    <span>
+      {convertWeatherCodeToIcon(weatherData.data.current.weather_code)}
+      {weatherData.data.current.temperature_2m}
+      {weatherData.data && "°"}
+    </span>
+  );
 }
 
-export default WeatherMain
+export default WeatherMain;

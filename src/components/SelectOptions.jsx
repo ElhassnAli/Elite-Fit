@@ -4,8 +4,6 @@ import { WeatherContext } from "../context/WeatherContext";
 
 function SelectOptions() {
   const { isMetric, setIsMetric, setUnitSysOpen } = useContext(WeatherContext);
-  console.log(isMetric);
-  console.log(setIsMetric);
 
   const settingsData = [
     {
