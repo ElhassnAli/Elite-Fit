@@ -5,13 +5,24 @@ import {
 } from "../context/WeatherContext";
 
 function WeatherMain() {
-  const { weatherData } = useContext(WeatherContext);
+  const { weatherData, isMetric } = useContext(WeatherContext);
   if (weatherData.data === undefined) return;
   return (
-    <span>
-      {convertWeatherCodeToIcon(weatherData.data.current.weather_code)}
-      {weatherData.data.current.temperature_2m}
-      {weatherData.data && "°"}
+    <span className="flex items-center text-7xl gap-20 md:gap-0">
+      <img
+        src={convertWeatherCodeToIcon(
+          weatherData.data.current.weather_code,
+          weatherData.data.current.is_day,
+        )}
+        alt=""
+        width={100}
+      />
+      <span>
+        {isMetric
+          ? weatherData.data.current.temperature_2m
+          : Math.round(weatherData.data.current.temperature_2m * 1.8 + 32)}
+        {weatherData?.data && "°"}
+      </span>
     </span>
   );
 }

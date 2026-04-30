@@ -5,6 +5,8 @@ import AppTitle from "./components/AppTitle";
 import SearchBar from "./components/SearchBar";
 import WeatherBanner from "./components/WeatherBanner";
 import HourlyForecast from "./components/HourlyForecast";
+import CurrentWeather from "./components/CurrentWeather";
+import DailyForecast from "./components/DailyForecast";
 
 WeatherContext;
 function App() {
@@ -16,7 +18,7 @@ function App() {
   const [weatherData, setWeatherData] = useState([]);
   const [address, setAddress] = useState({});
   const [hourlyForecastDay, setHourlyForecastDay] = useState({
-    dayName: "-",
+    dayName: "",
     dayNum: 0,
   });
   const [selectDayDropDawn, setSelectDayDropDawn] = useState(false);
@@ -34,12 +36,17 @@ function App() {
   }
 
   async function getWeather(address) {
-    if (address.latitude === "" || address.longitude === "") return;
+    if (
+      address.latitude === "" ||
+      address.longitude === "" ||
+      searchQuery === ""
+    )
+      return;
     let URL = `
-https://api.open-meteo.com/v1/forecast?latitude=${address.latitude}&longitude=${address.longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=temperature_2m,weather_code&current=precipitation,temperature_2m,wind_speed_10m,weather_code&timezone=auto&past_days=0&forecast_days=7`;
+https://api.open-meteo.com/v1/forecast?latitude=${address.latitude}&longitude=${address.longitude}&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=temperature_2m,weather_code,is_day&current=precipitation,temperature_2m,wind_speed_10m,weather_code,is_day,relative_humidity_2m,apparent_temperature&timezone=auto&past_days=0&forecast_days=7`;
     const res = await fetch(URL);
     const data = await res.json();
-    if (data.hourly.time && data.hourly.time.length > 0) {
+    if (data?.hourly?.time && data?.hourly?.time.length > 0) {
       setWeatherData({
         data: data,
         address: {
@@ -53,21 +60,11 @@ https://api.open-meteo.com/v1/forecast?latitude=${address.latitude}&longitude=${
         }),
         dayNum: 0,
       });
-      console.log(weatherData);
-
-      // const day = data.current.time;
-      // const dayName = new Date(day).toLocaleDateString("en-US", {
-      //   weekday: "long",
-      // });
-      // const monthName = new Date(day).toLocaleDateString("en-US", {
-      //   weekday: "long",
-
-      // });
-      // setSelectedDay({ name: dayName, dayNum: 0 });
     } else {
       setWeatherData([]);
     }
   }
+
   return (
     <WeatherContext.Provider
       value={{
@@ -91,17 +88,19 @@ https://api.open-meteo.com/v1/forecast?latitude=${address.latitude}&longitude=${
         setHourlyForecastDay,
       }}
     >
-      <div className="bg-[#02012b] w-[75%] m-auto text-white">
-        <div>
+      <div className="bg-[#02012b] md:w-[75%] w-[95%] m-auto text-white">
+        <div className="">
           <Header />
           <AppTitle />
           <SearchBar />
         </div>
-        <main className=" flex justify-between ">
-          <div className="w-[70%]">
+        <main className=" flex justify-between mt-10 flex-col md:flex-row">
+          <div className="md:w-[70%] ">
             <WeatherBanner />
+            <CurrentWeather />
+            <DailyForecast />
           </div>
-          <aside className="w-[25%]">
+          <aside className="md:w-[25%] mb-5 md:mb-0">
             <HourlyForecast />
           </aside>
         </main>

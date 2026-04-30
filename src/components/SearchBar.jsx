@@ -13,8 +13,8 @@ function SearchBar() {
     setSuggestionsOpen,
   } = useContext(WeatherContext);
   return (
-    <div className=" flex justify-center items-center text-[18px] mt-15">
-      <div className="flex   items-center bg-neutral-700 px-3 py-3 rounded-2xl border-2 border-transparent focus-within:border-white relative">
+    <div className=" flex justify-center flex-col md:flex-row items-center text-[18px] mt-5">
+      <div className="flex  items-center md:mb-0 mb-5 bg-neutral-700 px-3 py-3 rounded-2xl border-2 border-transparent focus-within:border-white relative ">
         <IoSearch size={25} />
         <input
           type="text"
@@ -25,7 +25,7 @@ function SearchBar() {
             getCountry(searchQuery);
             setSuggestionsOpen(true);
           }}
-          className="border-none pr-30 outline-none pl-5"
+          className="border-none md:pr-30  pr-10 outline-none pl-5"
         />
         {suggestionsOpen && <Suggestions />}
       </div>

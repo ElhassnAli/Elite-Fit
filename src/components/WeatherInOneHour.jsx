@@ -1,17 +1,30 @@
-import { convertWeatherCodeToIcon } from "../context/WeatherContext";
-function WeatherInOneHour({ data, temp, weatherCode }) {
+import { useContext } from "react";
+import {
+  convertWeatherCodeToIcon,
+  WeatherContext,
+} from "../context/WeatherContext";
+function WeatherInOneHour({ data, temp, weatherCode, dayOrNight }) {
+  const { isMetric } = useContext(WeatherContext);
   return (
-    <div className="flex justify-between items-center bg-neutral-500 mb-5 rounded-[10px] p-3">
-      <span className="flex gap-2">
-        {convertWeatherCodeToIcon(weatherCode)}
-        <span>
+    <div className="flex justify-between items-center bg-[#2f2f49] mb-5 rounded-[10px] p-2">
+      <span className="flex items-center">
+        <img
+          className=""
+          src={convertWeatherCodeToIcon(weatherCode, dayOrNight)}
+          alt=""
+          width={40}
+        />
+        <p className="">
           {new Date(data).toLocaleTimeString("en-US", {
             hour: "numeric",
             hour12: true,
           })}
-        </span>
+        </p>
       </span>
-      <span>{temp}&deg;</span>
+      <span>
+        {isMetric ? temp : Math.round(temp * 1.8 + 32)}
+        <span>&deg;</span>
+      </span>
     </div>
   );
 }
