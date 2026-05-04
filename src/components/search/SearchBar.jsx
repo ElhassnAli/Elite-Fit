@@ -4,12 +4,8 @@ import SearchButton from "./SearchButton";
 import Suggestions from "./Suggestions";
 
 function SearchBar() {
-  const {
-    searchQuery,
-    setSearchQuery,
-    suggestionsOpen,
-    setSuggestionsOpen,
-  } = useWeather();
+  const { searchQuery, setSearchQuery, suggestionsOpen, setSuggestionsOpen } =
+    useWeather();
   return (
     <div className=" flex justify-center flex-col md:flex-row items-center text-[18px] mt-5">
       <div className="flex  items-center md:mb-0 mb-5 bg-neutral-700 px-3 py-3 rounded-2xl border-2 border-transparent focus-within:border-white relative ">
