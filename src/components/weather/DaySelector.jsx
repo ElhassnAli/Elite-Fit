@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
 
 function DaySelector() {
   const { weatherData, setSelectDayDropDawn, setHourlyForecastDay } =
-    useContext(WeatherContext);
+    useWeather();
 
   const days = weatherData?.data?.daily?.time || [];
 

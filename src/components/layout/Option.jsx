@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
 import { IoMdCheckmark } from "react-icons/io";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
 function Option({ props }) {
-  const { isMetric } = useContext(WeatherContext);
+  const { isMetric } = useWeather();
   return (
     <div className="">
       <label className="text-gray-500 ">{props.label}</label>

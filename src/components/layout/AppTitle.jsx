@@ -7,4 +7,3 @@ function AppTitle() {
 }
 
 export default AppTitle;
-//How's the sky looking today?

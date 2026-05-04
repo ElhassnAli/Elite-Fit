@@ -2,11 +2,10 @@ import SelectOptions from "./SelectOptions";
 // import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
 
 function Header() {
-  const { unitSysOpen, setUnitSysOpen } = useContext(WeatherContext);
+  const { unitSysOpen, setUnitSysOpen } = useWeather();
   return (
     <header className="flex justify-between items-center mt-5  relative text-white">
       <img src="/design/logo.svg" alt="logo" />

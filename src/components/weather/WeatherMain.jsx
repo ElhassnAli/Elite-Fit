@@ -1,20 +1,18 @@
-import { useContext } from "react";
-import {
-  convertWeatherCodeToIcon,
-  WeatherContext,
-} from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
+import { WEATHER_ICONS } from "../../utils/convertWeatherCodeToIcon";
 
 function WeatherMain() {
-  const { weatherData, isMetric } = useContext(WeatherContext);
+  const { weatherData, isMetric } = useWeather();
   if (weatherData.data === undefined) return;
   return (
     <span className="flex items-center text-7xl gap-20 md:gap-0">
       <img
-        src={convertWeatherCodeToIcon(
-          weatherData.data.current.weather_code,
-          weatherData.data.current.is_day,
-        )}
-        alt=""
+        src={
+          WEATHER_ICONS[weatherData.data.current.is_day][
+            weatherData.data.current.weather_code
+          ]
+        }
+        alt="Weather Icon"
         width={100}
       />
       <span>

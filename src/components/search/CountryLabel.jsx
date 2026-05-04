@@ -1,10 +1,7 @@
-import { useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
 
 function CountryLabel({ props }) {
-  const { setSearchQuery, setSuggestionsOpen, setAddress } =
-    useContext(WeatherContext);
-  console.log(props);
+  const { setSearchQuery, setSuggestionsOpen, setAddress } = useWeather();
 
   return (
     <label

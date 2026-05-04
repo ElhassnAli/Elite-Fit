@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { WeatherContext } from "../context/WeatherContext";
+
+import { useWeather } from "../../context/WeatherContext";
 import WeatherInOneHour from "./WeatherInOneHour";
 import DaySelector from "./DaySelector";
 import { IoIosArrowDown } from "react-icons/io";
@@ -10,9 +10,10 @@ function HourlyForecast() {
     selectDayDropDawn,
     setSelectDayDropDawn,
     hourlyForecastDay,
-  } = useContext(WeatherContext);
+    isLoading,
+  } = useWeather();
 
-  if (weatherData.data === undefined) return;
+  if (!weatherData.data && !isLoading) return null;
   const start = hourlyForecastDay.dayNum * 24;
   const end = start + 24;
   const hoursOfWeek = weatherData?.data?.hourly?.time;
@@ -27,7 +28,7 @@ function HourlyForecast() {
   return (
     <div className="relative bg-[#25253f] rounded-2xl p-5 ">
       <div className="flex justify-between items-center mb-7">
-        <p className="font-bold text-[20px]">HourlyForecast</p>
+        <p className="font-bold text-xl">HourlyForecast</p>
         <div className="relative flex items-center   bg-[#3e3c5f]  rounded-[10px] ">
           <div
             className="flex items-center gap-2 px-3 cursor-pointer"
@@ -35,22 +36,31 @@ function HourlyForecast() {
               setSelectDayDropDawn((e) => !e);
             }}
           >
-            <span>{hourlyForecastDay.dayName}</span>
+            <span>{isLoading ? "—" : hourlyForecastDay.dayName}</span>
             <IoIosArrowDown size={20} />
           </div>
           {selectDayDropDawn && <DaySelector />}
         </div>
       </div>
-      <div className="overflow-y-auto h-133 custom-scrollbar ">
-        {currentHours.map((data, index) => (
-          <WeatherInOneHour
-            data={data}
-            key={data}
-            temp={currentTemps[index]}
-            weatherCode={currentCodes[index]}
-            dayOrNight={dayOrNight[index]}
-          />
-        ))}
+      <div className="overflow-y-auto h-145 custom-scrollbar ">
+        {isLoading
+          ? Array(24)
+              .fill(0)
+              .map((_, index) => (
+                <div
+                  className="bg-[#2f2f49] mb-5 rounded-[10px] py-6  animate-pulse mr-3 "
+                  key={index}
+                ></div>
+              ))
+          : currentHours.map((data, index) => (
+              <WeatherInOneHour
+                data={data}
+                key={data}
+                temp={currentTemps[index]}
+                weatherCode={currentCodes[index]}
+                dayOrNight={dayOrNight[index]}
+              />
+            ))}
       </div>
     </div>
   );

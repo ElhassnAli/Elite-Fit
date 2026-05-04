@@ -22,3 +22,28 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #6b7280;
 }
+
+@keyframes waveMove {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.dot-wave-1 {
+  animation: waveMove 0.8s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.dot-wave-2 {
+  animation: waveMove 0.8s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+
+.dot-wave-3 {
+  animation: waveMove 0.8s ease-in-out infinite;
+  animation-delay: 0.4s;
+}

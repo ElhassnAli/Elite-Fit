@@ -1,17 +1,14 @@
-import { useContext } from "react";
-import {
-  convertWeatherCodeToIcon,
-  WeatherContext,
-} from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
+import { WEATHER_ICONS } from "../../utils/convertWeatherCodeToIcon";
 function WeatherInOneHour({ data, temp, weatherCode, dayOrNight }) {
-  const { isMetric } = useContext(WeatherContext);
+  const { isMetric } = useWeather();
   return (
-    <div className="flex justify-between items-center bg-[#2f2f49] mb-5 rounded-[10px] p-2">
+    <div className="flex justify-between items-center bg-[#2f2f49] mb-5 rounded-[10px] p-2 mr-3">
       <span className="flex items-center">
         <img
           className=""
-          src={convertWeatherCodeToIcon(weatherCode, dayOrNight)}
-          alt=""
+          src={WEATHER_ICONS[dayOrNight][weatherCode]}
+          alt="Weather Icon"
           width={40}
         />
         <p className="">

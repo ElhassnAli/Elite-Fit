@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
 import Option from "./Option";
-import { WeatherContext } from "../context/WeatherContext";
+import { useWeather } from "../../context/WeatherContext";
 
 function SelectOptions() {
-  const { isMetric, setIsMetric, setUnitSysOpen } = useContext(WeatherContext);
+  const { isMetric, setIsMetric, setUnitSysOpen } = useWeather();
 
   const settingsData = [
     {
