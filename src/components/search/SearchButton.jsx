@@ -1,7 +1,7 @@
 import { useWeather } from "../../context/WeatherContext";
 
 function SearchButton() {
-  const { handleSearchAndFetch, setSearchQuery } = useWeather();
+  const { handleSearchAndFetch, setSearchQuery, searchQuery } = useWeather();
   return (
     <>
       <button
@@ -10,6 +10,7 @@ function SearchButton() {
           handleSearchAndFetch();
           setSearchQuery("");
         }}
+        disabled={searchQuery === ""}
       >
         Search
       </button>
