@@ -7,7 +7,6 @@ function SearchBar() {
   const {
     searchQuery,
     setSearchQuery,
-    getCountry,
     suggestionsOpen,
     setSuggestionsOpen,
   } = useWeather();
@@ -21,7 +20,6 @@ function SearchBar() {
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
-            getCountry(searchQuery);
             setSuggestionsOpen(true);
           }}
           className="border-none md:pr-30  pr-10 outline-none pl-5"

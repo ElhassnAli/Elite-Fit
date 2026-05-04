@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { fetchWeatherData } from "../servicrs/weathreAPI";
 import { fetchCountryLocation } from "../servicrs/geocodingAPI";
 const WeatherContext = createContext();
@@ -18,18 +24,7 @@ export function WeatherProvider({ children }) {
   const [selectDayDropDawn, setSelectDayDropDawn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchQuery.length < 2) {
-        setCountriesWeGet([]);
-      } else {
-        getCountry(searchQuery);
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
-
-  async function getCountry(city) {
+  const getCountry = useCallback(async (city) => {
     try {
       const data = await fetchCountryLocation(city);
       if (data.results && data.results.length > 0) {
@@ -40,7 +35,18 @@ export function WeatherProvider({ children }) {
     } catch (error) {
       console.log(error);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchQuery.length < 2) {
+        setCountriesWeGet([]);
+      } else {
+        getCountry(searchQuery);
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchQuery, getCountry]);
 
   async function getWeather() {
     if (!address?.latitude || !address?.longitude) return;
@@ -69,6 +75,64 @@ export function WeatherProvider({ children }) {
       console.log(error);
     }
   }
+
+  async function handleSearchAndFetch() {
+    const isNewSearch =
+      searchQuery.length > 0 &&
+      address.name &&
+      address.name.toLowerCase() !== searchQuery.toLowerCase();
+
+    if (!address?.latitude || !address?.longitude || isNewSearch) {
+      if (searchQuery.length < 2) return;
+
+      try {
+        setIsLoading(true);
+        const locationData = await fetchCountryLocation(searchQuery);
+
+        if (locationData.results && locationData.results.length > 0) {
+          const selectedLocation = locationData.results[0];
+          setAddress(selectedLocation);
+          setSuggestionsOpen(false);
+
+          const weatherData = await fetchWeatherData(
+            selectedLocation.latitude,
+            selectedLocation.longitude,
+          );
+
+          if (
+            weatherData?.hourly?.time &&
+            weatherData?.hourly?.time.length > 0
+          ) {
+            setWeatherData({
+              data: weatherData,
+              address: {
+                city: selectedLocation.name,
+                country: selectedLocation.country,
+              },
+            });
+            setHourlyForecastDay({
+              dayName: new Date(weatherData.current.time).toLocaleDateString(
+                "en-US",
+                {
+                  weekday: "long",
+                },
+              ),
+              dayNum: 0,
+            });
+          } else {
+            setWeatherData([]);
+          }
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log("Error fetching location or weather:", error);
+        setIsLoading(false);
+      }
+    } else {
+      getWeather();
+    }
+  }
+
   return (
     <WeatherContext.Provider
       value={{
@@ -83,6 +147,7 @@ export function WeatherProvider({ children }) {
         suggestionsOpen,
         setSuggestionsOpen,
         getWeather,
+        handleSearchAndFetch,
         setAddress,
         address,
         weatherData,
