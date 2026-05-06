@@ -7,21 +7,23 @@ import {
 } from "react";
 import { fetchWeatherData } from "../servicrs/weathreAPI";
 import { fetchCountryLocation } from "../servicrs/geocodingAPI";
+import { useUiContext } from "./UIContext";
 const WeatherContext = createContext();
 
 export function WeatherProvider({ children }) {
+  const { setSuggestionsOpen } = useUiContext();
   const [isMetric, setIsMetric] = useState(true);
-  const [unitSysOpen, setUnitSysOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [countriesWeGet, setCountriesWeGet] = useState([]);
-  const [suggestionsOpen, setSuggestionsOpen] = useState(false);
+
   const [weatherData, setWeatherData] = useState([]);
   const [address, setAddress] = useState({});
   const [hourlyForecastDay, setHourlyForecastDay] = useState({
     dayName: "",
     dayNum: 0,
   });
-  const [selectDayDropDawn, setSelectDayDropDawn] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const getCountry = useCallback(async (city) => {
@@ -138,21 +140,15 @@ export function WeatherProvider({ children }) {
       value={{
         isMetric,
         setIsMetric,
-        unitSysOpen,
-        setUnitSysOpen,
         searchQuery,
         setSearchQuery,
         getCountry,
         countriesWeGet,
-        suggestionsOpen,
-        setSuggestionsOpen,
         getWeather,
         handleSearchAndFetch,
         setAddress,
         address,
         weatherData,
-        selectDayDropDawn,
-        setSelectDayDropDawn,
         hourlyForecastDay,
         setHourlyForecastDay,
         isLoading,

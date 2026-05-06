@@ -1,8 +1,9 @@
+import { useUiContext } from "../../context/UIContext";
 import { useWeather } from "../../context/WeatherContext";
 
 function DaySelector() {
-  const { weatherData, setSelectDayDropDawn, setHourlyForecastDay } =
-    useWeather();
+  const { weatherData, setHourlyForecastDay } = useWeather();
+  const { setSelectDayDropDawn } = useUiContext();
 
   const days = weatherData?.data?.daily?.time || [];
 

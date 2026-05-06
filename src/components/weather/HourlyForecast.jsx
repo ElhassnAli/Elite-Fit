@@ -1,17 +1,12 @@
-
 import { useWeather } from "../../context/WeatherContext";
 import WeatherInOneHour from "./WeatherInOneHour";
 import DaySelector from "./DaySelector";
 import { IoIosArrowDown } from "react-icons/io";
+import { useUiContext } from "../../context/UIContext";
 
 function HourlyForecast() {
-  const {
-    weatherData,
-    selectDayDropDawn,
-    setSelectDayDropDawn,
-    hourlyForecastDay,
-    isLoading,
-  } = useWeather();
+  const { weatherData, hourlyForecastDay, isLoading } = useWeather();
+  const { selectDayDropDawn, setSelectDayDropDawn } = useUiContext();
 
   if (!weatherData.data && !isLoading) return null;
   const start = hourlyForecastDay.dayNum * 24;
