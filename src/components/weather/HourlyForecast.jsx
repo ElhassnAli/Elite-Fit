@@ -2,11 +2,12 @@ import { useWeather } from "../../context/WeatherContext";
 import WeatherInOneHour from "./WeatherInOneHour";
 import DaySelector from "./DaySelector";
 import { IoIosArrowDown } from "react-icons/io";
-import { useUiContext } from "../../context/UIContext";
+import { useState } from "react";
 
 function HourlyForecast() {
   const { weatherData, hourlyForecastDay, isLoading } = useWeather();
-  const { selectDayDropDawn, setSelectDayDropDawn } = useUiContext();
+
+  const [DayDropDawnIsOpen, setDayDropDawnIsOpen] = useState(false);
 
   if (!weatherData.data && !isLoading) return null;
   const start = hourlyForecastDay.dayNum * 24;
@@ -28,13 +29,15 @@ function HourlyForecast() {
           <div
             className="flex items-center gap-2 px-3 cursor-pointer"
             onClick={() => {
-              setSelectDayDropDawn((e) => !e);
+              setDayDropDawnIsOpen((e) => !e);
             }}
           >
             <span>{isLoading ? "—" : hourlyForecastDay.dayName}</span>
             <IoIosArrowDown size={20} />
           </div>
-          {selectDayDropDawn && <DaySelector />}
+          {DayDropDawnIsOpen && (
+            <DaySelector setDayDropDawnIsOpen={setDayDropDawnIsOpen} />
+          )}
         </div>
       </div>
       <div className="overflow-y-auto h-145 custom-scrollbar ">

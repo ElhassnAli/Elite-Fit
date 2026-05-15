@@ -2,10 +2,11 @@ import SelectOptions from "./SelectOptions";
 // import { useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { useUiContext } from "../../context/UIContext";
+
+import { useState } from "react";
 
 function Header() {
-  const { unitSysOpen, setUnitSysOpen } = useUiContext();
+  const [unitSysOpen, setUnitSysOpen] = useState(false);
   return (
     <header className="flex justify-between items-center mt-5  relative text-white">
       <img src="/design/logo.svg" alt="logo" />
@@ -17,7 +18,7 @@ function Header() {
         <span>Units</span>
         <IoIosArrowDown size={18} />
       </div>
-      {unitSysOpen && <SelectOptions />}
+      {unitSysOpen && <SelectOptions setUnitSysOpen={setUnitSysOpen} />}
     </header>
   );
 }

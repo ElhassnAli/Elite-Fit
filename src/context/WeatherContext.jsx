@@ -1,31 +1,18 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import { createContext, useContext, useState, useCallback } from "react";
 import { fetchWeatherData } from "../servicrs/weathreAPI";
 import { fetchCountryLocation } from "../servicrs/geocodingAPI";
-import { useUiContext } from "./UIContext";
 const WeatherContext = createContext();
 
 export function WeatherProvider({ children }) {
-  const { setSuggestionsOpen } = useUiContext();
   const [isMetric, setIsMetric] = useState(true);
-
-  const [searchQuery, setSearchQuery] = useState("");
   const [countriesWeGet, setCountriesWeGet] = useState([]);
-
   const [weatherData, setWeatherData] = useState([]);
   const [address, setAddress] = useState({});
   const [hourlyForecastDay, setHourlyForecastDay] = useState({
     dayName: "",
     dayNum: 0,
   });
-
   const [isLoading, setIsLoading] = useState(false);
-
   const getCountry = useCallback(async (city) => {
     try {
       const data = await fetchCountryLocation(city);
@@ -38,17 +25,6 @@ export function WeatherProvider({ children }) {
       console.log(error);
     }
   }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (searchQuery.length < 2) {
-        setCountriesWeGet([]);
-      } else {
-        getCountry(searchQuery);
-      }
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [searchQuery, getCountry]);
 
   async function getWeather() {
     if (!address?.latitude || !address?.longitude) return;
@@ -78,7 +54,7 @@ export function WeatherProvider({ children }) {
     }
   }
 
-  async function handleSearchAndFetch() {
+  async function handleSearchAndFetch(searchQuery, setSuggestionsOpen) {
     const isNewSearch =
       searchQuery.length > 0 &&
       address.name &&
@@ -140,8 +116,6 @@ export function WeatherProvider({ children }) {
       value={{
         isMetric,
         setIsMetric,
-        searchQuery,
-        setSearchQuery,
         getCountry,
         countriesWeGet,
         getWeather,

@@ -1,9 +1,7 @@
-import { useUiContext } from "../../context/UIContext";
 import { useWeather } from "../../context/WeatherContext";
 
-function CountryLabel({ props }) {
-  const { setSearchQuery, setAddress } = useWeather();
-  const { setSuggestionsOpen } = useUiContext();
+function CountryLabel({ props, setSuggestionsOpen, setSearchQuery }) {
+  const { setAddress } = useWeather();
 
   return (
     <button

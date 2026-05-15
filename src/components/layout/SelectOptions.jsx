@@ -1,10 +1,10 @@
 import Option from "./Option";
 import { useWeather } from "../../context/WeatherContext";
-import { useUiContext } from "../../context/UIContext";
 
-function SelectOptions() {
+
+function SelectOptions({ setUnitSysOpen }) {
   const { isMetric, setIsMetric } = useWeather();
-  const { setUnitSysOpen } = useUiContext();
+  
 
   const settingsData = [
     {

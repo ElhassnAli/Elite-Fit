@@ -1,9 +1,7 @@
-import { useUiContext } from "../../context/UIContext";
 import { useWeather } from "../../context/WeatherContext";
 
-function DaySelector() {
+function DaySelector({ setDayDropDawnIsOpen }) {
   const { weatherData, setHourlyForecastDay } = useWeather();
-  const { setSelectDayDropDawn } = useUiContext();
 
   const days = weatherData?.data?.daily?.time || [];
 
@@ -16,7 +14,7 @@ function DaySelector() {
         return (
           <span
             onClick={() => {
-              setSelectDayDropDawn(false);
+              setDayDropDawnIsOpen(false);
               setHourlyForecastDay({ dayName: dayName, dayNum: index });
             }}
             key={dayName}
